@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethel Cain — Официальный сайт</title>
+    <style>
+        /* CSS Reset & Variables */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-color: #0c0908;
+            --bg-card: #15100e;
+            --bg-card-hover: #1f1714;
+            --text-main: #d4c5b9;
+            --text-muted: #8c7b70;
+            --accent-red: #8b2626;
+            --accent-red-hover: #a82e2e;
+            --accent-sepia: #c29b68;
+            --border-color: #332621;
+            --font-serif: 'Baskerville', 'Times New Roman', 'Georgia', serif;
+            --font-sans: 'Georgia', serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-serif);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* SVG Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.28;
+        }
+
+        /* Utility classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(12, 9, 8, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-sepia);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: 0.3s;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0 80px;
+            background: linear-gradient(rgba(12, 9, 8, 0.7), rgba(12, 9, 8, 0.95)), 
+                        url('https://placehold.co/1920x1080/1a1210/d4c5b9?text=Ethel+Cain+Southern+Gothic') center/cover no-repeat;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .release-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent-sepia);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.2rem;
+            margin-bottom: 1.5rem;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Custom Audio Player */
+        .audio-player-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .track-cover {
+            width: 70px;
+            height: 70px;
+            background: #2a1f1b url('https://placehold.co/150x150/2a1f1b/c29b68?text=EP') center/cover;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .track-meta h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .track-meta p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            font-style: normal;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .play-btn {
+            background-color: var(--accent-red);
+            color: var(--text-main);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .play-btn:hover {
+            background-color: var(--accent-red-hover);
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--border-color);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-sepia);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-indicators {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .merch-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.5rem;
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--bg-card-hover);
+            color: var(--text-main);
+            border-color: var(--accent-sepia);
+        }
+
+        .merch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .merch-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .merch-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-sepia);
+        }
+
+        .merch-img-wrap {
+            width: 100%;
+            height: 320px;
+            background-color: #1a1412;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .merch-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(30%) brightness(0.85);
+            transition: filter 0.3s ease;
+        }
+
+        .merch-card:hover .merch-img-wrap img {
+            filter: sepia(10%) brightness(1);
+        }
+
+        .merch-info h3 {
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .merch-price {
+            color: var(--accent-sepia);
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: transparent;
+            border: 1px solid var(--accent-red);
+            color: var(--text-main);
+            padding: 0.8rem;
+            font-family: var(--font-serif);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-red);
+        }
+
+        .bio-content {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .bio-image {
+            width: 100%;
+            height: 500px;
+            background: url('https://placehold.co/800x1000/1a1210/8c7b70?text=Ethel+Portrait') center/cover no-repeat;
+            border: 1px solid var(--border-color);
+            filter: sepia(40%) contrast(120%);
+        }
+
+        .bio-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .bio-text p:first-child {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .quote-box {
+            border-left: 2px solid var(--accent-red);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .contact-info-list li {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .contact-info-list span {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-sepia);
+        }
+
+        .contact-info-list a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+
+        .contact-info-list a:hover {
+            color: var(--accent-sepia);
+        }
+
+        .contact-form {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 0.9rem;
+            color: var(--text-main);
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-sepia);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        footer {
+            background-color: #080605;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .footer-copyright {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* Modal notification */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-sepia);
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-box h3 {
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .modal-box p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .bio-content, .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .bio-image {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                border-bottom: 1px solid var(--border-color);
+                transform: translateY(-150%);
+                transition: transform 0.4s ease;
+                z-index: 999;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .hero-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg class="grain-overlay" xmlns="http://www.w3.org/2000/svg">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+    </svg>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Ethel Cain</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#release">Релиз</a></li>
+                <li><a href="#merch">Мерч</a></li>
+                <li><a href="#bio">Об артисте</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section id="release" class="hero">
+        <div class="hero-content">
+            <span class="release-badge">Новый сингл • Доступно на виниле</span>
+            <h1>Punish</h1>
+            <p>«...в тишине заброшенных полей Джорджии, где тени прошлого шепчут в сумерках.»</p>
+            
+            <div class="audio-player-card">
+                <div class="track-info">
+                    <div class="track-cover"></div>
+                    <div class="track-meta">
+                        <h3>Punish (Acoustic Version)</h3>
+                        <p>Ethel Cain — Daughters of Cain Records</p>
+                    </div>
+                </div>
+                <div class="player-controls">
+                    <button class="play-btn" id="playBtn" aria-label="Воспроизвести">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" id="playIcon">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                    </button>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="time-indicators">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">3:42</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden audio placeholder element for mock/actual streaming interaction -->
+                <audio id="audioElement" preload="none" src="https://actions.google.com/sounds/v1/ambiences/night_crickets.ogg"></audio>
+            </div>
+        </div>
+    </section>
+
+    <section id="merch" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Магазин продукции</h2>
+                <p>Фирменные артефакты, винил и коллекционные издания ручной работы.</p>
+            </div>
+
+            <div class="merch-tabs">
+                <button class="tab-btn active" data-filter="all">Все товары</button>
+                <button class="tab-btn" data-filter="vinyl">Винил и CD</button>
+                <button class="tab-btn" data-filter="apparel">Одежда</button>
+                <button class="tab-btn" data-filter="prints">Постеры</button>
+            </div>
+
+            <div class="merch-grid" id="merchGrid">
+                <!-- Item 1 -->
+                <div class="merch-card" data-category="vinyl">
+                    <div class="merch-img-wrap">
+                        <img src="https://placehold.co/600x600/1a1210/c29b68?text=PreachersDaughter+LP" alt="Vinyl LP">
+                    </div>
+                    <div class="merch-info">
+                        <h3>Preacher’s Daughter (Limited Gatefold LP)</h3>
+                        <div class="merch-price">45.00 $</div>
+                    </div>
+                    <button class="btn-primary buy-btn" data-item="Preacher’s Daughter LP">Заказать</button>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="merch-card" data-category="apparel">
+                    <div class="merch-img-wrap">
+                        <img src="https://placehold.co/600x600/1a1210/c29b68?text=Gothic+T-Shirt" alt="T-Shirt">
+                    </div>
+                    <div class="merch-info">
+                        <h3>Vintage Cross Vintage Wash Tee</h3>
+                        <div class="merch-price">35.00 $</div>
+                    </div>
+                    <button class="btn-primary buy-btn" data-item="Vintage Cross Tee">Заказать</button>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="merch-card" data-category="prints">
+                    <div class="merch-img-wrap">
+                        <img src="https://placehold.co/600x600/1a1210/c29b68?text=Archival+Poster" alt="Poster">
+                    </div>
+                    <div class="merch-info">
+                        <h3>Archival Tour Lithograph Poster</h3>
+                        <div class="merch-price">25.00 $</div>
+                    </div>
+                    <button class="btn-primary buy-btn" data-item="Lithograph Poster">Заказать</button>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="merch-card" data-category="vinyl">
+                    <div class="merch-img-wrap">
+                        <img src="https://placehold.co/600x600/1a1210/c29b68?text=Inbred+EP" alt="Inbred EP">
+                    </div>
+                    <div class="merch-info">
+                        <h3>Inbred EP (Clear Vinyl Edition)</h3>
+                        <div class="merch-price">30.00 $</div>
+                    </div>
+                    <button class="btn-primary buy-btn" data-item="Inbred EP Vinyl">Заказать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bio" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Об артисте</h2>
+                <p>Мелодраматичные хроники американской глубинки</p>
+            </div>
+            <div class="bio-content">
+                <div class="bio-image"></div>
+                <div class="bio-text">
+                    <p>Хейден Пруитт (Hayden Anhedönia), выступающая под псевдонимом Ethel Cain — американский композитор, автор песен и продюсер из Флориды.</p>
+                    <p>Её творчество глубоко укоренено в эстетике южной готики, религиозной меланхолии американского Юга и кинематографичной мрачной романтики. Музыкальные полотна Этель сочетают в себе элементы эмбиента, slowcore, кантри и альтернативного рока.</p>
+                    <div class="quote-box">
+                        «Мы создаем истории из пепла тех мест, откуда родом, где каждый закат пахнет иссушенной травой и старыми молитвами.»
+                    </div>
+                    <p>Каждое выступление и релиз артистки — это погружение в уникальный нарративный мир со своими трагедиями, символизмом и вневременной эстетикой выцветших полароидов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Контакты и букинг</h2>
+                <p>Связь с менеджментом, запросы на сотрудничество и концертные выступления</p>
+            </div>
+            <div class="contact-grid">
+                <div>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                        По вопросам организации концертов, прессы и официальных коллабораций обращайтесь через прямые каналы или используя форму обратной связи.
+                    </p>
+                    <ul class="contact-info-list">
+                        <li>
+                            <span>Букинг и концерты</span>
+                            <a href="mailto:booking@daughtersofcain.com">booking@daughtersofcain.com</a>
+                        </li>
+                        <li>
+                            <span>Сотрудничество / PR</span>
+                            <a href="mailto:press@daughtersofcain.com">press@daughtersofcain.com</a>
+                        </li>
+                        <li>
+                            <span>Социальные сети</span>
+                            <a href="#" target="_blank">Instagram / X / Bandcamp</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Ваше имя / Организация</label>
+                            <input type="text" id="name" class="form-control" required placeholder="Введите имя...">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Электронная почта</label>
+                            <input type="email" id="email" class="form-control" required placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение / Запрос</label>
+                            <textarea id="message" class="form-control" required placeholder="Опишите детали запроса..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Отправить сообщение</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Daughters of Cain Records</div>
+            <p class="footer-copyright">&copy; 2026 Ethel Cain. Все права защищены. Южная готика, США.</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <h3 id="modalTitle">Заказ оформлен</h3>
+            <p id="modalText">Спасибо за ваш интерес к творчеству Ethel Cain. Информация направлена менеджеру магазина.</p>
+            <button class="btn-primary" id="modalClose">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Audio Player simulator logic
+            const audio = document.getElementById('audioElement');
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+
+            let isPlaying = false;
+            const mockDuration = 222; // 3:42 in seconds
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            durationEl.textContent = formatTime(mockDuration);
+
+            playBtn.addEventListener('click', () => {
+                if (!isPlaying) {
+                    audio.play().catch(() => {}); // catch error if autoplay restricted
+                    isPlaying = true;
+                    playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+                    startProgressSimulation();
+                } else {
+                    audio.pause();
+                    isPlaying = false;
+                    playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+                    stopProgressSimulation();
+                }
+            });
+
+            let progressInterval;
+            let currentSeconds = 0;
+
+            function startProgressSimulation() {
+                progressInterval = setInterval(() => {
+                    currentSeconds += 1;
+                    if (currentSeconds > mockDuration) {
+                        currentSeconds = 0;
+                        isPlaying = false;
+                        playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+                        stopProgressSimulation();
+                        return;
+                    }
+                    const pct = (currentSeconds / mockDuration) * 100;
+                    progressFill.style.width = `${pct}%`;
+                    currentTimeEl.textContent = formatTime(currentSeconds);
+                }, 1000);
+            }
+
+            function stopProgressSimulation() {
+                clearInterval(progressInterval);
+            }
+
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const pct = clickX / width;
+                currentSeconds = pct * mockDuration;
+                progressFill.style.width = `${pct * 100}%`;
+                currentTimeEl.textContent = formatTime(currentSeconds);
+            });
+
+            // Merch Category Tabs Filtering
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const merchCards = document.querySelectorAll('.merch-card');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filter = btn.getAttribute('data-filter');
+                    merchCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Modal and Order / Contact handlers
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalText = document.getElementById('modalText');
+            const modalClose = document.getElementById('modalClose');
+
+            function showModal(title, text) {
+                modalTitle.textContent = title;
+                modalText.textContent = text;
+                modalOverlay.classList.add('active');
+            }
+
+            modalClose.addEventListener('click', () => {
+                modalOverlay.classList.remove('active');
+            });
+
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                }
+            });
+
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const itemName = btn.getAttribute('data-item');
+                    showModal('Заказ принят', `Товар «${itemName}» добавлен в ваш резерв. Инструкции по оплате и доставке отправлены.`);
+                });
+            });
+
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showModal('Сообщение отправлено', 'Ваш запрос успешно передан менеджменту Daughters of Cain Records.');
+                contactForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
